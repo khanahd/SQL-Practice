@@ -50,5 +50,27 @@ CREATE VIEW Customer_Order_Details AS
     
     -- Deleting a View
     Drop view if exists Customer_Order_Details;
+
+    -- Creating a new view with Concat of the First and last name of the contact person.
+CREATE VIEW Customer_Order_Details2 AS
+    SELECT 
+        orders.customerNumber,
+        customers.customerName,
+        concat(customers.contactFirstname,' ',customers.contactLastName) as 'Contact Person',
+        orders.orderNumber,
+        orderdetails.productCode,
+        products.productName,
+        products.buyPrice
+    FROM
+        orders
+            INNER JOIN
+        orderdetails ON orders.orderNumber = orderdetails.orderNumber
+            INNER JOIN
+        products ON orderdetails.productCode = products.productCode
+            INNER JOIN
+        customers ON customers.customerNumber = orders.customerNumber
+    ORDER BY customers.customerNumber;
+    
+    Select * from Customer_Order_Details2;
     
     
